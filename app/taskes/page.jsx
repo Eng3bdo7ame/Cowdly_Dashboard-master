@@ -141,6 +141,8 @@ const DraggableBoard = () => {
                                 className="bg-red-500 text-white rounded-lg text-xl px-4 py-2"
                                 onClick={() => setShowForm(false)} // Hide form when canceled
                             >
+
+
                                 Cancel
                             </button>
                         </div>
