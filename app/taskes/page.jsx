@@ -1,11 +1,11 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from 'react';
 import Sortable from 'sortablejs';
 import { GoPaperclip } from "react-icons/go";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
+import EditTaskForm from './updateTask'; // تأكد من المسار الصحيح لمكون نموذج التعديل
 
-// Data structure for the columns and cards
 const initialColumnsData = [
     {
         title: "In Progress",
@@ -74,37 +74,77 @@ const initialColumnsData = [
 ];
 
 const DraggableBoard = () => {
-    const [columnsData, setColumnsData] = useState(initialColumnsData); // State to store columns
-    const [showForm, setShowForm] = useState(false); // State to control form visibility
-    const [newColumnName, setNewColumnName] = useState(''); // State to store new column name
+    const [columnsData, setColumnsData] = useState(() => {
+        const savedData = localStorage.getItem('columnsData');
+        return savedData ? JSON.parse(savedData) : initialColumnsData;
+    });
 
-    // Initialize the sortable feature for each column
+    const [showForm, setShowForm] = useState(false);
+    const [newColumnName, setNewColumnName] = useState('');
+    const [newCardName, setNewCardName] = useState('');
+    const [showCardForm, setShowCardForm] = useState(null);
+    const [selectedCard, setSelectedCard] = useState(null);
+
+    useEffect(() => {
+        localStorage.setItem('columnsData', JSON.stringify(columnsData));
+    }, [columnsData]);
+
     useEffect(() => {
         const containers = document.querySelectorAll('.draggable-column');
 
         containers.forEach(container => {
             new Sortable(container, {
-                draggable: '.draggable-card', // Set the whole card as draggable
-                group: 'shared', // To allow dragging between columns
+                draggable: '.draggable-card',
+                group: 'shared',
                 animation: 150,
                 onEnd: (evt) => {
                     // Handle the logic when dragging ends, e.g., update state
                 }
             });
         });
-    }, [columnsData]); // Add dependency on columnsData to reinitialize on update
+    }, [columnsData]);
 
-    // Handle adding new column
     const handleAddNewColumn = () => {
         if (newColumnName.trim()) {
             const newColumn = {
                 title: newColumnName,
-                items: [] // Empty items in the new column
+                items: []
             };
-            setColumnsData([...columnsData, newColumn]); // Add the new column to the existing columns
-            setShowForm(false); // Hide the form after adding
-            setNewColumnName(''); // Reset the input field
+            setColumnsData([...columnsData, newColumn]);
+            setShowForm(false);
+            setNewColumnName('');
         }
+    };
+
+    const handleAddNewCard = (colIndex) => {
+        if (newCardName.trim()) {
+            const newCard = {
+                label: "New Card",
+                labelColor: "bg-gray-200 text-gray-700",
+                title: newCardName,
+                attachments: 0,
+                comments: 0,
+                users: []
+            };
+            const updatedColumns = [...columnsData];
+            updatedColumns[colIndex].items.push(newCard);
+            setColumnsData(updatedColumns);
+            setNewCardName('');
+            setShowCardForm(null);
+        }
+    };
+
+    const handleCardClick = (card) => {
+        setSelectedCard(card);
+    };
+
+    const handleSaveCard = (updatedCard) => {
+        const updatedColumns = columnsData.map(column => ({
+            ...column,
+            items: column.items.map(item => (item === selectedCard ? updatedCard : item))
+        }));
+        setColumnsData(updatedColumns);
+        setSelectedCard(null);
     };
 
     return (
@@ -113,13 +153,11 @@ const DraggableBoard = () => {
                 <h1 className='text-7xl'>Tasks</h1>
                 <button
                     className="text-3xl bg-blue-500 text-white rounded-lg px-4 py-2 mr-16"
-                    onClick={() => setShowForm(true)} // Show form when clicked
+                    onClick={() => setShowForm(true)}
                 >
                     + Add new
                 </button>
 
-
-                {/* Form to input new column name */}
                 {showForm && (
                     <div className="absolute top-[12rem] right-[-9rem] transform -translate-x-1/2 -translate-y-1/2 p-4 w-[20%] bg-white rounded-xl shadow-lg">
                         <h2 className='text-2xl'>Add new column</h2>
@@ -139,10 +177,8 @@ const DraggableBoard = () => {
                             </button>
                             <button
                                 className="bg-red-500 text-white rounded-lg text-xl px-4 py-2"
-                                onClick={() => setShowForm(false)} // Hide form when canceled
+                                onClick={() => setShowForm(false)}
                             >
-
-
                                 Cancel
                             </button>
                         </div>
@@ -150,14 +186,17 @@ const DraggableBoard = () => {
                 )}
             </div>
 
-            <div className="flex space-x-4 p-8">
+            <div className="flex overflow-x-auto space-x-4 p-8">
                 {columnsData.map((column, colIndex) => (
-                    <div key={colIndex} className="w-1/3">
+                    <div key={colIndex} className="min-w-[300px]">
                         <h3 className="text-4xl font-semibold mb-4">{column.title}</h3>
                         <div className="draggable-column space-y-4">
                             {column.items.map((item, itemIndex) => (
-                                <div key={itemIndex} className="draggable-card p-4 bg-white rounded-lg shadow-md cursor-move">
-                                    {/* No handle, the whole card is draggable */}
+                                <div
+                                    key={itemIndex}
+                                    className="draggable-card p-4 bg-white rounded-lg shadow-md cursor-move"
+                                    onClick={() => handleCardClick(item)} // Handle card click
+                                >
                                     <span className={`inline-block px-2 py-1 text-xl font-semibold ${item.labelColor} rounded-full mb-2`}>
                                         {item.label}
                                     </span>
@@ -185,11 +224,58 @@ const DraggableBoard = () => {
                                 </div>
                             ))}
                         </div>
-                        <button className=" mt-4 text-2xl  text-gray-500 rounded-lg px-4 py-2">+ Add New Item</button>
+
+                        <button
+                            className="mt-4 text-2xl text-gray-500 rounded-lg px-4 py-2"
+                            onClick={() => setShowCardForm(colIndex)}
+                        >
+                            + Add New Item
+                        </button>
+
+                        {showCardForm === colIndex && (
+                            <div className="mt-4">
+                                <input
+                                    type="text"
+                                    placeholder="Enter card name"
+                                    value={newCardName}
+                                    onChange={(e) => setNewCardName(e.target.value)}
+                                    className="border border-gray-300 rounded-lg px-4 py-2 w-full text-xl"
+                                />
+                                <div className="mt-4">
+                                    <button
+                                        className="bg-green-500 text-white rounded-lg text-xl px-4 py-2 mr-4"
+                                        onClick={() => handleAddNewCard(colIndex)}
+                                    >
+                                        Confirm
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white rounded-lg text-xl px-4 py-2"
+                                        onClick={() => setShowCardForm(null)}
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 ))}
-
             </div>
+
+            {selectedCard && (
+                <div className='fixed inset-0 bg-black bg-opacity-50 z-40 backdrop-blur-sm'
+                    onClick={() => setSelectedCard(null)}
+                >
+                    <div className={`fixed top-0 right-0 h-full w-[400px] bg-white shadow-lg z-50 transform transition-transform ease-in-out duration-300 ${selectedCard ? 'translate-x-0' : 'translate-x-full'}`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <EditTaskForm
+                            card={selectedCard}
+                            onClose={() => setSelectedCard(null)}
+                            onSave={handleSaveCard}
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
