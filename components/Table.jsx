@@ -46,6 +46,9 @@ export default function Table({ openCreate, tableHeader = [], tableData = [], fo
     const paginate = useCallback((pageNumber) => {
         setCurrentPage(pageNumber);
     }, []);
+
+
+
     return (
         <div id="wrapper">
             <div id="page">
@@ -83,7 +86,7 @@ export default function Table({ openCreate, tableHeader = [], tableData = [], fo
                                                 </li>
                                             )}
                                         </ul>
-                                        <ul className="flex flex-column">
+                                        <ul className=" p-0">
                                             {tableData.length > 0 ? (
                                                 tableData.map((data, index) => (
                                                     <li className="product-item gap14" key={index}>
