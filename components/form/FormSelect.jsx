@@ -19,27 +19,19 @@
 */
 
 import React from "react";
-  
-function FormSelect({ selectLabel, handleChange, options, value, name }) {
- 
+
+function FormSelect({ label, handleChange, options, value, name }) {
+
   return (
     <div>
-      <label
-        htmlFor={selectLabel}
-        className="block mb-2 text-md font-medium   font-sans  outline-none focus:border-gray-600 dark:focus:border-gray-100 duration-100 ease-linear"
-      >
-        {selectLabel}
-      </label>
+      <label className="body-title mb-10">{label} <span className="tf-color-1">*</span></label>
+
 
       <select
         onChange={handleChange}
-        id={selectLabel}
+
         name={name}
-        className="w-full p-2.5 dark:bg-gray-50 rounded-md
-        dark:border-gray-600 dark:placeholder-gray-400
-         outline-none border text-gray-700
-        focus:border-orange-400 dark:focus:border-orange-400
-        duration-100 ease-linear"
+        className="mb-10 text-left text-2xl"
         value={value}
       >
         <option value={""}> select </option>
@@ -50,7 +42,7 @@ function FormSelect({ selectLabel, handleChange, options, value, name }) {
             </option>
           ))}
       </select>
-    </div>
+    </div >
   );
 }
 
