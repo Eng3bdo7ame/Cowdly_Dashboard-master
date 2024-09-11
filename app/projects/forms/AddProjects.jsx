@@ -6,17 +6,17 @@ import FormFieldset from "../../../components/form/FormFieldset";
 // import FormNumber from "../../components/form/FormNumber";
 import FormTextArea from "../../../components/form/FormTextArea";
 // import FormEmail from "../../components/form/FormEmail";
-// import FormSelect from "../../components/form/FormSelect";
+import FormSelect from "../../../components/form/FormSelect";
 // import FormPic from "../../components/form/FormPic";
 // import Image from "next/image";
-import Link from "next/link";
+import Link from "next/link";   
 
 const AddProjects = ({ closeModal, role, modal }) => {
     const [formData, setFormData] = useState({
-        ClientName: "",
-        phoneNumber: "",
-        address: "",
-        email: "",
+        projectName: "",
+        projectManager: "",
+        projectclient: "",
+        Description: "",
     });
 
     const handleChange = useCallback((e) => {
@@ -78,7 +78,7 @@ const AddProjects = ({ closeModal, role, modal }) => {
                 }}
                 className={`rounded-l-[15px] p-4 w-full max-w-[55rem] pb-10 bg-white
                dark:bg-gray-800 rounded-r-lg duration-200 ease-linear
-               ${modal ? "fixed left-0" : "absolute -left-full"}
+               ${modal ? "fixed right-0" : "absolute -left-full"}
                h-screen overflow-auto`}
                 dir="rtl"
             >
@@ -101,12 +101,14 @@ const AddProjects = ({ closeModal, role, modal }) => {
                             <FormFieldset label="Project Name" type={"text"} name="ClientName"
                                 //  value={formData.ClientName}
                                 onChange={handleChange} placeholder={"Enter Project Name"} />
-                            <FormFieldset label="Client Name" type={"text"} name="ClientName"
-                                // value={formData.ClientName}
-                                onChange={handleChange} placeholder={"Enter Client Name"} />
-                            <FormFieldset label="Address" name="Address"
+
+                            <FormSelect label="Project Manager" name="projectManager"
                                 // value={formData.ClientName} 
-                                onChange={handleChange} placeholder={"Enter Address"} />
+                                onChange={handleChange} placeholder={"Enter Project Manager"} />
+
+                            <FormSelect label="Project Client" name="projectclient"
+                                // value={formData.ClientName} 
+                                onChange={handleChange} placeholder={"Enter Project Client"} />
 
                             <FormTextArea label="Project Description" name="Description"
                                 // value={formData.ClientName} 
