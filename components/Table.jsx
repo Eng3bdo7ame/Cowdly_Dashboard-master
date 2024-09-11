@@ -1,10 +1,10 @@
 
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
- import { FiEye } from "react-icons/fi";
+import { FiEye } from "react-icons/fi";
 import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
- 
-export default function Table({ openCreate }) {
+
+export default function Table({ openCreate, tableHeader = [], tableData = [], formType }) {
     const dropdownRefs = useRef({});
     const [selectedHotelId, setSelectedHotelId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -46,9 +46,6 @@ export default function Table({ openCreate }) {
     const paginate = useCallback((pageNumber) => {
         setCurrentPage(pageNumber);
     }, []);
-
-
-export default function Table({ openCreate, tableHeader = [], tableData = [], formType }) {
     return (
         <div id="wrapper">
             <div id="page">
