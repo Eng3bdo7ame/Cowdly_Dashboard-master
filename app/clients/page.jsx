@@ -2,17 +2,11 @@
 import React, { useState, useEffect, memo } from 'react';
 import Table from '@/components/Table';
 import gsap from 'gsap';
-import dynamic from 'next/dynamic'; // Lazy loading dynamic import
-// import AreaChartSpline from '@/ApexCharts/AreaChartSpline'
-import AreaChartCard from '@/ApexCharts/AreaChartCard';
+  import AreaChartCard from '@/ApexCharts/AreaChartCard';
 import AddClients from './forms/AddClients';
 
 
-// Lazy load Dashboard and AddClients
-// const AddClients = dynamic(() => import('./AddClients'), { ssr: false });
-
-// Memoized Card component
-
+ 
 const ClientPage = ({ role }) => {
     const [openCreate, setOpenCreate] = useState(false);
 
@@ -31,7 +25,7 @@ const ClientPage = ({ role }) => {
                 { opacity: 1, y: 0, duration: 1, stagger: 0.2 }
             );
         });
-        return () => ctx.revert(); // Cleanup GSAP animations on unmount
+        return () => ctx.revert(); 
     }, []);
 
     return (
