@@ -1,6 +1,11 @@
+
+'use client';
+;
+
 import Table from '@/components/Table';
 import AddVersions from './forms/AddVersions';
 import { useState } from 'react';
+
 
 
 const VersionTable = () => {

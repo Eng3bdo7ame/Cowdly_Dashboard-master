@@ -1,13 +1,12 @@
 "use client"
-import React, { useState } from 'react'
+import React from 'react'
 import { IoMdHome } from "react-icons/io";
 import { SlBasket } from "react-icons/sl";
 import { LuLayers } from "react-icons/lu";
 import { FaBox } from "react-icons/fa";
 import { FiFilePlus } from "react-icons/fi";
 import { FaRegUser } from "react-icons/fa";
-import { FaUserPlus } from "react-icons/fa";
-import { MdOutlinePhotoLibrary } from "react-icons/md";
+ import { MdOutlinePhotoLibrary } from "react-icons/md";
 import { AiOutlinePieChart } from "react-icons/ai";
 import { CiLocationOn } from "react-icons/ci";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -19,8 +18,7 @@ import { FiFacebook } from "react-icons/fi";
 import { CiTwitter } from "react-icons/ci";
 import { FiLinkedin } from "react-icons/fi";
 import { FaInstagram } from "react-icons/fa";
-import { FaOutdent } from "react-icons/fa";
-import Link from 'next/link';
+ import Link from 'next/link';
 export default function Sidebar() {
     const SectionKind = [
         {
@@ -210,6 +208,13 @@ export default function Sidebar() {
                                             <Link href="/taskes" class="menu-item-button">
                                                 <div class="icon"><FaRegUser /></div>
                                                 <div class="text">Tasks</div>
+                                            </Link>
+
+                                        </li>
+                                        <li class="menu-item   ">
+                                            <Link href="/users" class="menu-item-button">
+                                                <div class="icon"><FaRegUser /></div>
+                                                <div class="text">users</div>
                                             </Link>
 
                                         </li>
