@@ -1,7 +1,5 @@
 'use client';
-import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { CaretLeft, CaretRight, Eye, Plus, MagnifyingGlass } from '@phosphor-icons/react';
-import Table from '@/components/Table';
+ import Table from '@/components/Table';
 const VersionTable = () => {
 
     return (

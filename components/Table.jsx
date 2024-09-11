@@ -1,11 +1,8 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-// import { CaretLeft, CaretRight, Eye, Plus, MagnifyingGlass } from '@phosphor-icons/react';
-import Image from 'next/image';
-import { FiEye } from "react-icons/fi";
+ import { FiEye } from "react-icons/fi";
 import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
-import Link from 'next/link';
-
+ 
 export default function Table({ openCreate }) {
     const dropdownRefs = useRef({});
     const [selectedHotelId, setSelectedHotelId] = useState(null);

@@ -1,15 +1,8 @@
 'use client';
 import { useState, useCallback } from "react";
-import { Plus, X } from "@phosphor-icons/react";
-// import FormBtnIcon from "../../components/form/FormBtnIcon";
-import FormFieldset from "../../../components/form/FormFieldset";
-// import FormNumber from "../../components/form/FormNumber";
-// import FormTextArea from "../../components/form/FormTextArea";
-// import FormEmail from "../../components/form/FormEmail";
-// import FormSelect from "../../components/form/FormSelect";
-// import FormPic from "../../components/form/FormPic";
-// import Image from "next/image";
-import Link from "next/link";
+import {   X } from "@phosphor-icons/react";
+ import FormFieldset from "../../../components/form/FormFieldset";
+ 
 
 const AddClients = ({ closeModal, role, modal }) => {
     const [formData, setFormData] = useState({
