@@ -9,7 +9,7 @@ import FormTextArea from "../../../components/form/FormTextArea";
 import FormSelect from "../../../components/form/FormSelect";
 // import FormPic from "../../components/form/FormPic";
 // import Image from "next/image";
-import Link from "next/link";   
+import Link from "next/link";
 
 const AddProjects = ({ closeModal, role, modal }) => {
     const [formData, setFormData] = useState({
@@ -92,7 +92,7 @@ const AddProjects = ({ closeModal, role, modal }) => {
                             <X size={18} weight="bold" />
                             <span className="sr-only">Close modal</span>
                         </button>
-                        <h2 >Add Client</h2>
+                        <h2 >Add New Project</h2>
 
                     </div>
                     <div className="main-content-wrap mt-5">

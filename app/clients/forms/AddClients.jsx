@@ -1,10 +1,11 @@
 'use client';
 import { useState, useCallback } from "react";
-import {   X } from "@phosphor-icons/react";
- import FormFieldset from "../../../components/form/FormFieldset";
- 
+import { X } from "@phosphor-icons/react";
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import FormFieldset from "../../../components/form/FormFieldset";
 
-const AddClients = ({ closeModal, role, modal }) => {
+const AddClients = ({ closeModal, modal }) => {
     const [formData, setFormData] = useState({
         ClientName: "",
         phoneNumber: "",
@@ -51,28 +52,49 @@ const AddClients = ({ closeModal, role, modal }) => {
         }
     }, [closeModal]);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Prevent the default form submission behavior
+
+        try {
+            const token = Cookies.get('token'); // Retrieve token from cookies
+            if (!token) {
+                console.error('No token found in cookies');
+                return;
+            }
+
+            const response = await axios.post('https://dashboard.cowdly.com/api/clients/', formData, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Include token in the request header
+                },
+            });
+
+            console.log('Client added successfully:', response.data);
+            closeModal(); // Close the modal on successful submission
+
+        } catch (error) {
+            console.error('Error adding client:', error.response?.data || error.message);
+        }
+    };
+
     return (
         <div
-
             onClick={handleBackgroundClick}
             id="createStudent"
-            className={` createStudent overflow-y-auto overflow-x-hidden duration-200 ease-linear
+            className={`createStudent overflow-y-auto overflow-x-hidden duration-200 ease-linear
                 shadow-2xl shadow-slate-500 
-            backdrop-blur-sm backdrop-saturate-[180%]
-            dark:shadow-white/[0.10] dark:backdrop-blur-sm dark:backdrop-saturate-[180%] 
-            fixed top-0 left-0 z-50 justify-center items-center
-            w-full h-full ${modal ? "visible" : "invisible"}`}
-
-
+                backdrop-blur-sm backdrop-saturate-[180%]
+                dark:shadow-white/[0.10] dark:backdrop-blur-sm dark:backdrop-saturate-[180%] 
+                fixed top-0 left-0 z-50 justify-center items-center
+                w-full h-full ${modal ? "visible" : "invisible"}`}
         >
             <div
                 style={{
                     boxShadow: "black 19px 0px 45px -12px",
                 }}
                 className={`rounded-l-[15px] p-4 w-full max-w-[55rem] pb-10 bg-white
-               dark:bg-gray-800 rounded-r-lg duration-200 ease-linear
-               ${modal ? "fixed right-0" : "absolute -left-full"}
-               h-screen overflow-auto`}
+                dark:bg-gray-800 rounded-r-lg duration-200 ease-linear
+                ${modal ? "fixed right-0" : "absolute -left-full"}
+                h-screen overflow-auto`}
                 dir="rtl"
             >
                 <div className="relative p-4 bg-white dark:bg-gray-800 sm:p-5">
@@ -86,16 +108,15 @@ const AddClients = ({ closeModal, role, modal }) => {
                             <span className="sr-only">Close modal</span>
                         </button>
                         <h2>Add Client</h2>
-
                     </div>
                     <div className="main-content-wrap mt-5">
-                        <form className=" form-add-product text-left">
+                        <form className="form-add-product text-left" onSubmit={handleSubmit}>
                             {/* Form content */}
                             <FormFieldset label="Client Name" type={"text"} name="ClientName" placeholder={"Enter Client Name"} value={formData.ClientName} onChange={handleChange} />
                             <FormFieldset label="Phone Number" type={"number"} name="phoneNumber" placeholder={"Enter Phone Number"} value={formData.phoneNumber} onChange={handleChange} />
                             <FormFieldset label="Email" type={"email"} name="email" placeholder={"Enter Email"} value={formData.email} onChange={handleChange} />
                             <FormFieldset label="Address" type={"text"} name="address" placeholder={"Enter Address"} value={formData.address} onChange={handleChange} />
-                            <button className="tf-button style-1 w208" href="/clients/AddClients"><i className="icon-plus"></i>Add New</button>
+                            <button className="tf-button style-1 w208" type="submit"><i className="icon-plus"></i>Add New</button>
                         </form>
                     </div>
                 </div>

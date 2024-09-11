@@ -1,5 +1,7 @@
 'use client';
 import { useState, useCallback } from "react";
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Plus, X } from "@phosphor-icons/react";
 // import FormBtnIcon from "../../components/form/FormBtnIcon";
 import FormFieldset from "../../../components/form/FormFieldset";
@@ -9,7 +11,7 @@ import FormTextArea from "../../../components/form/FormTextArea";
 import FormSelect from "../../../components/form/FormSelect";
 // import FormPic from "../../components/form/FormPic";
 // import Image from "next/image";
-import Link from "next/link";   
+import Link from "next/link";
 
 const AddStages = ({ closeModal, role, modal }) => {
     const [formData, setFormData] = useState({
@@ -44,6 +46,16 @@ const AddStages = ({ closeModal, role, modal }) => {
             file,
         }));
     }, []);
+    const today = new Date(); // Current date
+    const [startDate, setStartDate] = useState(today);
+    const [endDate, setEndDate] = useState(today);
+
+    const handleChangeStartDate = (date) => {
+        if (date && date > endDate) {
+            setEndDate(date); // Update end date if it's earlier than the start date
+        }
+        setStartDate(date);
+    };
 
     const handleRatingChange = useCallback((rating) => {
         setFormData(prevData => ({
@@ -92,23 +104,51 @@ const AddStages = ({ closeModal, role, modal }) => {
                             <X size={18} weight="bold" />
                             <span className="sr-only">Close modal</span>
                         </button>
-                        <h2 >Add Client</h2>
+                        <h2 >Add New Stage</h2>
 
                     </div>
                     <div className="main-content-wrap mt-5">
                         <form className=" form-add-product text-left    ">
                             {/* Form content */}
-                            <FormFieldset label="Project Name" type={"text"} name="ClientName"
+                            <FormFieldset label="Stage Name" type={"text"} name="stageName"
                                 //  value={formData.ClientName}
-                                onChange={handleChange} placeholder={"Enter Project Name"} />
+                                onChange={handleChange} placeholder={"Enter Stage Name"} />
 
-                            <FormSelect label="Project Manager" name="projectManager"
+                            <FormSelect label="Project" name="Project"
                                 // value={formData.ClientName} 
                                 onChange={handleChange} placeholder={"Enter Project Manager"} />
 
-                            <FormSelect label="Project Client" name="projectclient"
+                            <FormSelect label="Version " name="Version"
                                 // value={formData.ClientName} 
-                                onChange={handleChange} placeholder={"Enter Project Client"} />
+                                onChange={handleChange} placeholder={"Enter Project Manager"} />
+
+
+
+
+                            <div className="date-group">
+                                <div className="gap-5">
+                                    <div className="flex gap-4 items-center">
+                                        <label className="body-title mb-10">
+                                            Start Date <span className="tf-color-1">*</span>
+                                            <DatePicker
+                                                selected={startDate}
+                                                onChange={handleChangeStartDate}
+                                                minDate={today}
+                                                className="inputDate"
+                                            />
+                                        </label>
+
+                                        <FormFieldset
+                                            label="Duration  Days"
+                                            type={"text"}
+                                            name="Duration"
+                                            onChange={handleChange}
+                                            placeholder={"Enter Duration"}
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
 
                             <FormTextArea label="Project Description" name="Description"
                                 // value={formData.ClientName} 

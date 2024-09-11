@@ -27,30 +27,9 @@ const AddVersions = ({ closeModal, role, modal }) => {
         setStartDate(date);
     };
 
-    const handleChangeEndDate = (date) => {
-        if (date && date < startDate) {
-            setStartDate(date); // Update start date if it's later than the end date
-        }
-        setEndDate(date);
-    };
+    
 
-    const calculateDateDifference = (start, end) => {
-        if (!start || !end) return { months: 0, days: 0 };
-
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-
-        const yearsDifference = endDate.getFullYear() - startDate.getFullYear();
-        const monthsDifference = endDate.getMonth() - startDate.getMonth();
-        const daysDifference = endDate.getDate() - startDate.getDate();
-
-        const totalMonths = yearsDifference * 12 + monthsDifference;
-        const totalDays = daysDifference + (monthsDifference * 30); // Approximate days calculation
-
-        return { months: totalMonths, days: totalDays };
-    };
-
-    const { months, days } = calculateDateDifference(startDate, endDate);
+   
 
     const handleChange = useCallback((e) => {
         const { name, value, type, checked } = e.target;
@@ -97,7 +76,7 @@ const AddVersions = ({ closeModal, role, modal }) => {
                             <X size={18} weight="bold" />
                             <span className="sr-only">Close modal</span>
                         </button>
-                        <h2>Add Versions</h2>
+                        <h2>Add Version</h2>
                     </div>
                     <div className="main-content-wrap mt-5">
                         <form className="form-add-product text-left">

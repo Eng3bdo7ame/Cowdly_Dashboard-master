@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, memo } from 'react';
-import Table from './ProjectTable';
+import Table from './StageTable';
 import gsap from 'gsap';
 import dynamic from 'next/dynamic'; // Lazy loading dynamic import
 // import AreaChartSpline from '@/ApexCharts/AreaChartSpline'
