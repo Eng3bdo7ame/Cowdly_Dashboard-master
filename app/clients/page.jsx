@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, memo } from 'react';
-import Table from '@/components/Table';
+import Table from './ClientsTable';
 import gsap from 'gsap';
   import AreaChartCard from '@/ApexCharts/AreaChartCard';
 import AddClients from './forms/AddClients';

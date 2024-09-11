@@ -71,7 +71,7 @@ const AddClients = ({ closeModal, role, modal }) => {
                 }}
                 className={`rounded-l-[15px] p-4 w-full max-w-[55rem] pb-10 bg-white
                dark:bg-gray-800 rounded-r-lg duration-200 ease-linear
-               ${modal ? "fixed left-0" : "absolute -left-full"}
+               ${modal ? "fixed right-0" : "absolute -left-full"}
                h-screen overflow-auto`}
                 dir="rtl"
             >

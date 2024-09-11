@@ -20,8 +20,7 @@ const Login = () => {
     let hasError = false;
     setLoading(true);
 
-    // Validate email and password
-    if (email.trim() === "") {
+     if (email.trim() === "") {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
@@ -54,13 +53,19 @@ const Login = () => {
     try {
       const { data: loginData } = await axios.post(
         "https://dashboard.cowdly.com/api/users/login/",
-        { email, password } 
+        { email, password }
       );
 
       const token = loginData?.token;
       if (token) {
-        Cookies.set("token", token, { expires: 2, secure: true, sameSite: "strict" });
-        window.location.href = "/dashboard";
+         Cookies.set("token", token, { expires: 2, secure: true, sameSite: "strict" });
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful',
+          text: 'You have logged in successfully!',
+        });
+
+         window.location.href = "/dashboard";
       }
     } catch (error) {
       console.error("Login failed:", error);
@@ -76,6 +81,38 @@ const Login = () => {
 
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev);
+  };
+
+   const fetchProtectedData = async () => {
+    const token = Cookies.get("token"); 
+
+    if (token) {
+      try {
+        const response = await axios.get(
+          "https://dashboard.cowdly.com/api/protected-route/",
+          {
+            headers: {
+              Authorization: `token ${token}`, 
+            },
+          }
+        );
+
+        console.log("Protected data:", response.data);
+      } catch (error) {
+        console.error("Error fetching protected data:", error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Fetch failed',
+          text: 'Failed to retrieve data. Please log in again.',
+        });
+      }
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Not authenticated',
+        text: 'Please log in to access this data.',
+      });
+    }
   };
 
   return (
@@ -131,6 +168,7 @@ const Login = () => {
             {loading ? "Logging in..." : "Login"}
           </button>
         </form>
+
       </div>
     </section>
   );
