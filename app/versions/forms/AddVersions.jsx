@@ -121,7 +121,7 @@ const AddVersions = ({ closeModal, role, modal }) => {
                                 // value={formData.ClientName} 
                                 onChange={handleChange} placeholder={"Enter Project Manager"} />
 
-                            <FormSelect label="Project Team " name="projectManager"
+                            <FormSelect label="Project " name="projectManager"
                                 // value={formData.ClientName} 
                                 onChange={handleChange} placeholder={"Enter Project Manager"} />
 

@@ -200,7 +200,7 @@ export default function Sidebar() {
 
                                         </li>
                                         <li class="menu-item   ">
-                                            <Link href="javascript:void(0);" class="menu-item-button">
+                                            <Link href="/stages" class="menu-item-button">
                                                 <div class="icon"><FiFilePlus /></div>
                                                 <div class="text">Stages</div>
                                             </Link>
