@@ -1,5 +1,52 @@
-import { FiEye, FiEdit3, FiTrash2 } from "react-icons/fi";
+
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+ import { FiEye } from "react-icons/fi";
+import { FiEdit3, FiTrash2 } from 'react-icons/fi';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+ 
+export default function Table({ openCreate }) {
+    const dropdownRefs = useRef({});
+    const [selectedHotelId, setSelectedHotelId] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState("");
+
+    const itemsPerPage = 10;
+    const totalPages = 10;
+
+    const currentSet = useMemo(() => {
+        if (totalPages <= 6) {
+            return Array.from({ length: totalPages }, (_, i) => i + 1);
+        }
+        const startPage = Math.floor((currentPage - 1) / 6) * 6 + 1;
+        return Array.from({ length: 6 }, (_, i) => startPage + i).filter(page => page <= totalPages);
+    }, [currentPage, totalPages]);
+
+    const handleClickOutside = useCallback((event) => {
+        if (selectedHotelId !== null) {
+            const dropdown = dropdownRefs.current[selectedHotelId];
+            if (dropdown && !dropdown.contains(event.target) && !event.target.classList.contains("view-button")) {
+                setSelectedHotelId(null);
+            }
+        }
+    }, [selectedHotelId]);
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
+    }, [handleClickOutside]);
+
+    const toggleEditDropdown = useCallback((hotelId) => {
+        setSelectedHotelId((prevHotelId) => (prevHotelId === hotelId ? null : hotelId));
+    }, []);
+
+    const handleSearchChange = useCallback((event) => {
+        setSearchTerm(event.target.value);
+    }, []);
+
+    const paginate = useCallback((pageNumber) => {
+        setCurrentPage(pageNumber);
+    }, []);
+
 
 export default function Table({ openCreate, tableHeader = [], tableData = [], formType }) {
     return (
