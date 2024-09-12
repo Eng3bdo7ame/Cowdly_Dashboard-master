@@ -5,52 +5,21 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import FormFieldset from "../../../components/form/FormFieldset";
 
-const AddClients = ({ closeModal, modal }) => {
+const AddClients = ({ closeModal, modal, onClientAdded }) => {
     const [formData, setFormData] = useState({
-        ClientName: "",
-        phoneNumber: "",
-        address: "",
-        email: "",
+        "name": "",
+        "email": "",
+        "phone": "",
+        "address": ""
     });
 
     const handleChange = useCallback((e) => {
         const { name, value, type, checked } = e.target;
-        if (name === "convenience") {
-            setFormData(prevData => ({
-                ...prevData,
-                convenience: {
-                    ...prevData.convenience,
-                    [value]: !prevData.convenience[value],
-                },
-            }));
-        } else {
-            setFormData(prevData => ({
-                ...prevData,
-                [name]: type === 'checkbox' ? checked : value,
-            }));
-        }
-    }, []);
-
-    const handleFileUpload = useCallback((e) => {
-        const file = e.target.files[0];
         setFormData(prevData => ({
             ...prevData,
-            file,
+            [name]: type === 'checkbox' ? checked : value,
         }));
     }, []);
-
-    const handleRatingChange = useCallback((rating) => {
-        setFormData(prevData => ({
-            ...prevData,
-            rating,
-        }));
-    }, []);
-
-    const handleBackgroundClick = useCallback((e) => {
-        if (e.target === e.currentTarget) {
-            closeModal();
-        }
-    }, [closeModal]);
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
@@ -64,12 +33,13 @@ const AddClients = ({ closeModal, modal }) => {
 
             const response = await axios.post('https://dashboard.cowdly.com/api/clients/', formData, {
                 headers: {
-                    'Authorization': `Bearer ${token}`, // Include token in the request header
+                    'Authorization': `token ${token}`, // Include token in the request header
                 },
             });
 
             console.log('Client added successfully:', response.data);
             closeModal(); // Close the modal on successful submission
+            onClientAdded(); // Call the callback function to refresh the table data
 
         } catch (error) {
             console.error('Error adding client:', error.response?.data || error.message);
@@ -78,7 +48,7 @@ const AddClients = ({ closeModal, modal }) => {
 
     return (
         <div
-            onClick={handleBackgroundClick}
+            onClick={(e) => e.target === e.currentTarget && closeModal()}
             id="createStudent"
             className={`createStudent overflow-y-auto overflow-x-hidden duration-200 ease-linear
                 shadow-2xl shadow-slate-500 
@@ -88,9 +58,7 @@ const AddClients = ({ closeModal, modal }) => {
                 w-full h-full ${modal ? "visible" : "invisible"}`}
         >
             <div
-                style={{
-                    boxShadow: "black 19px 0px 45px -12px",
-                }}
+                style={{ boxShadow: "black 19px 0px 45px -12px" }}
                 className={`rounded-l-[15px] p-4 w-full max-w-[55rem] pb-10 bg-white
                 dark:bg-gray-800 rounded-r-lg duration-200 ease-linear
                 ${modal ? "fixed right-0" : "absolute -left-full"}
@@ -112,8 +80,8 @@ const AddClients = ({ closeModal, modal }) => {
                     <div className="main-content-wrap mt-5">
                         <form className="form-add-product text-left" onSubmit={handleSubmit}>
                             {/* Form content */}
-                            <FormFieldset label="Client Name" type={"text"} name="ClientName" placeholder={"Enter Client Name"} value={formData.ClientName} onChange={handleChange} />
-                            <FormFieldset label="Phone Number" type={"number"} name="phoneNumber" placeholder={"Enter Phone Number"} value={formData.phoneNumber} onChange={handleChange} />
+                            <FormFieldset label="Client Name" type={"text"} name="name" placeholder={"Enter Client Name"} value={formData.name} onChange={handleChange} />
+                            <FormFieldset label="Phone Number" type={"number"} name="phone" placeholder={"Enter Phone Number"} value={formData.phone} onChange={handleChange} />
                             <FormFieldset label="Email" type={"email"} name="email" placeholder={"Enter Email"} value={formData.email} onChange={handleChange} />
                             <FormFieldset label="Address" type={"text"} name="address" placeholder={"Enter Address"} value={formData.address} onChange={handleChange} />
                             <button className="tf-button style-1 w208" type="submit"><i className="icon-plus"></i>Add New</button>

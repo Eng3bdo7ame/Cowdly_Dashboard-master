@@ -5197,10 +5197,6 @@ select.h40 {
   width: 72px;
 }
 
-.wg-table.table-product-list>* {
-  min-width: 1515px;
-}
-
 .wg-table.table-product-list ul.table-title {
   padding: 12px;
   border-radius: 12px;
