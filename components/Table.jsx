@@ -86,7 +86,7 @@ export default function Table({ openCreate, tableHeader = [], tableData = [], fo
                                                 </li>
                                             )}
                                         </ul>
-                                        <ul className=" p-0">
+                                        <ul className="flex flex-column p-0">
                                             {tableData.length > 0 ? (
                                                 tableData.map((data, index) => (
                                                     <li className="product-item gap14" key={index}>
