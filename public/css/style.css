@@ -93,12 +93,18 @@ html {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+@layer base {
+    body {
+        @apply relative z-1 bg-gray-2 text-base font-normal text-dark-5 dark:bg-[#020D1A] dark:text-dark-6;
+        font-family: 'Tajawal', sans-serif;
+    }
 
-body {
-    background: #F2F7FB !important;
-    line-height: 1;
-    padding: 0 !important;
+    * {
+        font-family: 'Tajawal', sans-serif !important;
+
+    }
 }
+ 
 
 article,
 aside,

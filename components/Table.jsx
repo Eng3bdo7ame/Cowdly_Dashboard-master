@@ -73,7 +73,7 @@ export default function Table({ openCreate, tableHeader = [], tableData = [], fo
                                         </button>
                                     </div>
                                     <div className="wg-table table-product-list">
-                                        <ul className="table-title flex gap20 mb-14">
+                                        <ul className="  flex justify-between  mb-14">
                                             {tableHeader.length > 0 ? (
                                                 tableHeader.map((header, index) => (
                                                     <li key={index}>

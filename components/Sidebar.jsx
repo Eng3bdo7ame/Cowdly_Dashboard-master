@@ -20,8 +20,7 @@ import { FiFacebook } from "react-icons/fi";
 import { CiTwitter } from "react-icons/ci";
 import { FiLinkedin } from "react-icons/fi";
 import { FaInstagram } from "react-icons/fa";
-import { FaOutdent } from "react-icons/fa";
-import Link from 'next/link';
+ import Link from 'next/link';
 export default function Sidebar() {
     const SectionKind = [
         {
@@ -140,7 +139,7 @@ export default function Sidebar() {
 
     return (
 
-        <div className={`wrapper transition-all duration-300`} id="wrapper">
+        <div className={`wrapper transition-all duration-300 dark:text-white dark:bg-gray-dark`} id="wrapper">
             <div className="" id="page">
                 <div className="layout-wrap">
                     <div className="section-menu-left">
