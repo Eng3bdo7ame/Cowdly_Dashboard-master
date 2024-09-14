@@ -194,7 +194,7 @@ export default function Login() {
             </p>
 
             <div className="relative flex justify-center text-2xl my-4">
-              <span className="px-2 bg-gray-100 text-gray-500">or</span>
+              <span className="px-2  bg-gray-100 text-gray-500">or</span>
             </div>
 
             <div className="mt-6 flex justify-center gap-3">
